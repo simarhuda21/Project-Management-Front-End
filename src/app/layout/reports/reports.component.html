@@ -1,0 +1,127 @@
+<div class="container-flud">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-6 form-group group">
+                    <select [(ngModel)]="ngproject" class="task-select form-control" name="projectRef" (change)="onFormChange(); getDeveloperOfProject(ngproject)">
+                        <option value="" selected="selected">-- Project --</option>
+                        <option [ngValue]="project" *ngFor="let project of projectList">{{project.title}}</option>
+                    </select>
+                </div>
+                <div class="col-md-6 form-group group">
+                    <select [(ngModel)]="ngstatus" class="task-select form-control" name="status" (change)="onFormChange()">
+                        <option value="" selected="selected">--- Status --</option>
+                        <option value="{{s}}" *ngFor="let s of status">{{s}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div id="date" class="col-md-6">
+                    <input value="" [(ngModel)]="startDate" placeholder="Start Date" (dateTimeChange)="onFormChange()" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1">
+                    <!-- <span class="highlight"></span>
+                    <span class="bar"></span> -->
+                    <!-- <label>Start Date</label> -->
+                    <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+                </div>
+                <div id="date" class="col-md-6">
+                    <input value="" [(ngModel)]="endDate" placeholder="End Date" (dateTimeChange)="onFormChange()" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2">
+                    <!-- <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>End Date</label> -->
+                    <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-md-4">
+            <input type="text" id="searchTextId" [(ngModel)]="searchText" name="searchText" placeholder="Search By Description and Title" (keyup)="onSearch()">
+        </div> -->
+        <div *ngIf="checkRole === 1 || checkRole === 3 || checkRole === 4" class="col-md-4">
+            <select [(ngModel)]="ngdeveloper" class="task-select form-control" name="developer" (change)="onDeveloperSelect()">
+                <option value="" selected="selected">-- Developer --</option>
+                <option [ngValue]="developer._id" *ngFor="let developer of developerlist">{{developer.firstname+' '+developer.lastname | titlecase}}</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-dark btngrpWidth">
+            <input type="checkbox" (change)="hideShow()" name="SrNo" checked="checked">
+            <span> Serial No.</span>
+        </label>
+        <label class="btn btn-dark btngrpWidth">
+            <input type="checkbox" (change)="hideShow()" name="project" checked="checked">
+            <span>Project</span>
+        </label>
+        <label class="btn btn-dark btngrpWidth">
+            <input type="checkbox" (change)="hideShow()" name="task" checked="checked">
+            <span>Task</span>
+        </label>
+        <label class="btn btn-dark btngrpWidth">
+            <input type="checkbox" (change)="hideShow()" name="developer" checked="checked">
+            <span>Developer</span>
+        </label>
+        <label class="btn btn-dark btngrpWidth">
+            <input type="checkbox" (change)="hideShow()" name="hours" checked="checked">
+            <span>Hours</span>
+        </label>
+        <label class="btn btn-dark btngrpWidth">
+            <input type="checkbox" (change)="hideShow()" name="date" checked="checked">
+            <span>Date</span>
+        </label>
+        <label class="btn btn-dark btngrpWidth">
+            <input type="checkbox" (change)="hideShow()" name="status" checked="checked">
+            <span>Status</span>
+        </label>
+        <label class="btn btn-dark btngrpWidth">
+            <input type="checkbox" (change)="hideShow()" name="dueDate" checked="checked">
+            <span>End Date</span>
+        </label>
+        <label class="btn btn-dark btngrpWidth">
+            <input type="checkbox" (change)="hideShow()" name="description" checked="checked">
+            <span>Description</span>
+        </label>
+         <input type="reset" class="btngrpWidth reset" (click)="reset()"  name="reset" >
+      </div>
+        
+
+    <table id="style-1" class="table table-striped">
+        <thead>
+            <tr>
+                <th class="SrNo">SrNo.</th>
+                <th class="project">Project</th>
+                <th class="task">Task</th>
+                <th class="developer">Developer</th>
+                <th class="hours">Hour</th>
+                <th class="date">Date</th>
+                <th class="status">Status</th>
+                <th class="dueDate">End Date</th>
+                <th class="description">Description</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="reports.length > 0" class="fontSize15">
+            <tr *ngFor="let report of reports | paginate: { itemsPerPage: 6, currentPage: page }">
+                <td class="SrNo">{{report.srNo}}</td>
+                <td class="project">{{report.projectRef.title}}</td>
+                <td class="task">
+                    <a [routerLink]="['/tasks/details',report._id]">{{report.title}}</a>
+                </td>
+                <td class="developer">{{(report.developer ? report.developer.firstname+' '+report.developer.lastname : '') | titlecase }}</td>
+                <td class="hours">{{report.hours}}</td>
+                <td class="date">{{report.startDate | date: 'dd-MMM-yy'}}</td>
+                <td class="status">{{report.status}}</td>
+                <td class="dueDate">{{report.dueDateTime | date: 'dd-MMM-yy'}}</td>
+                <td class="description">{{report.description}}</td>
+            </tr>
+        </tbody>
+        <tr *ngIf="reports.length == 0">
+            <td colspan="9">
+                <h3 class="">No Record Found</h3>
+            </td>
+        </tr>
+    </table>
+    <div *ngIf="reports.length > 6" class="has-text-centered">
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+</div>

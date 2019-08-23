@@ -1,0 +1,208 @@
+<div class="container-flud">
+    <div *ngIf="!isListView">
+        <div class="row">
+            <h1 class="col-md-10">{{title}} Task</h1>
+            <select class="col-md-2 form-control" [(ngModel)]="taskObj.status" name="status" [disabled]="checkRole == '2'">
+                <option value="" disabled selected>-- Select Status --</option>
+                <option *ngFor="let status of statusList" value="{{status.name}}">{{status.name}}</option>
+            </select>
+        </div>
+        <form (ngSubmit)="onSubmit(taskObj)" #task="ngForm">
+            <!--Other User-->
+            <div *ngIf="userdata.role != 2">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 form-group group">
+                    <select class="task-select form-control" [(ngModel)]="taskObj.projectRef" name="projectRef" (change)="getDeveloperOfProject(taskObj.projectRef)"
+                        [disabled]="checkRole == '2'">
+                        <option value="" disabled selected>-- Select Project --</option>
+                        <option value="{{project._id}}" *ngFor="let project of projectList">{{project.title | titlecase}}</option>
+                    </select>
+                </div>
+                <div  class="col-md-6 col-sm-12 form-group group">
+                    <input type="text" class="form-control uneditable-input" [(ngModel)]="taskObj.srNo" value="{{taskObj.srNo}}" name="srNo"
+                        required disabled placeholder="Sr No.">
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <!-- <label>Serial No.</label> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group group">
+                    <input type="text" [(ngModel)]="taskObj.title" name="title" class="form-control" name="title" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Task title</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-12 form-group group">
+                    <select id="developer" class="form-control" name="developer" *ngIf="taskObj.projectRef != ''" [(ngModel)]="taskObj.developer"
+                        [disabled]="checkRole == '2'">
+                        <option value="" disabled selected>-- Select Developer --</option>
+                        <option *ngFor="let developer of getUsers" value="{{ developer._id }}">{{ developer.firstname + ' ' + developer.lastname | titlecase}}</option>
+                    </select>
+                    <select id="developer" class="form-control" name="developer" *ngIf="taskObj.projectRef == ''" [(ngModel)]="taskObj.developer"
+                        [disabled]="checkRole == '2'">
+                        <option value="" disabled selected>-- Select Developer --</option>
+                    </select>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                </div>
+                <div class="col-md-3 col-sm-12 form-group group">
+                    <input type="number" [(ngModel)]="taskObj.hours" name="hours" class="form-control">
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Hour</label>
+                </div>
+                <div  class="col-md-3 col-sm-12 form-group group">
+                    <input [(ngModel)]="taskObj.startDate" name="startDate" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2">
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Start Date</label>
+                    <owl-date-time [pickerType]="'calendar'" [startAt]="startAt" #dt2></owl-date-time>
+                </div>
+                <div  class="col-md-3 col-sm-12 form-group group">
+                    <input [(ngModel)]="taskObj.dueDateTime" [min]="taskObj.startDate" name="dueDateTime" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1">
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>End Date</label>
+                    <owl-date-time [pickerType]="'calendar'" [startAt]="startAt" #dt1></owl-date-time>
+                </div>
+            </div>
+          
+            <div class="row">
+                <div class="col-md-12 form-group group">
+                    <textarea [(ngModel)]="taskObj.description" name="description" class="form-control" rows="3" id="description" required></textarea>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label for="description">Description</label>
+                </div>
+            </div>
+       
+            </div>
+            <!--Developer-->
+            <div *ngIf="userdata.role == 2">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 form-group group">
+                            <select class="task-select form-control" [(ngModel)]="taskObj.projectRef" name="projectRef" (change)="getDeveloperOfProject(taskObj.projectRef)"
+                                [disabled]="checkRole == '2'">
+                                <option value="" disabled selected>-- Select Project --</option>
+                                <option value="{{project._id}}" *ngFor="let project of projectList">{{project.title | titlecase}}</option>
+                            </select>
+                        </div>
+               
+                  
+                        <div class="col-md-6 col-sm-12 form-group group">
+                            <input type="text" [(ngModel)]="taskObj.title" name="title" class="form-control" name="title" required>
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label>Task title</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 form-group group">
+                            <input type="number" [(ngModel)]="taskObj.hours" name="hours" class="form-control">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label>Hour</label>
+                        </div>
+                        <div class="col-md-6 col-sm-12 form-group group">
+                                <input [(ngModel)]="taskObj.startDate" name="startDate" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2">
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label>Date</label>
+                                <owl-date-time [pickerType]="'calendar'" [startAt]="startAt" #dt2></owl-date-time>
+                            </div>
+                    </div>
+                    <div class="row">
+              
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group group">
+                            <textarea [(ngModel)]="taskObj.description" name="description" class="form-control" rows="3" id="description" required></textarea>
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label for="description">Description</label>
+                        </div>
+                    </div>
+            
+                    </div>
+            <div class="row" style="text-align: center;">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-outline-primary">{{btnName}}</button>&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-outline-danger" (click)="goBack()">Cancel</button>&nbsp;&nbsp;
+                    <!-- Upload CSV -->
+                    <button type="button" class="btn btn-outline-primary" [routerLink]="['/importTask']"> Upload a CSV </button>
+                </div>
+            </div>
+      
+        
+        </form>
+    </div>
+    <div *ngIf="isListView">
+        <button type="button" data-toggle="tooltip" title="Add New Task" class="btn btn-outline-primary customeBtn"  (click)="addNewTask()">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
+        <div class="row">
+            
+            <div class="col-md-12 float-right col-sm-12">
+                <button type="button" class="btn btn-outline-secondary float-right" (click)="exportTask()">
+                    <i class="fa fa-download" aria-hidden="true"></i> Export </button>
+            </div>
+        </div>
+        <div class="marginBottom15"></div>
+        <table id="example" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>SrNo.</th>
+                    <th>Project</th>
+                    <th>Task</th>
+                    <th>Hour</th>
+                    <th *ngIf="userdata.role != 2;else date">Start Date</th>
+                    <ng-template #date>
+                        <th>Date</th>
+                    </ng-template>
+                    <th>Developer</th>
+                    <th>Status</th>
+                    <th *ngIf="userdata.role != 2">End Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody class="fontSize15">
+                <tr *ngFor="let task of tasks | paginate: { itemsPerPage: 6, currentPage: page }">
+                    <td>{{task.srNo}}</td>
+                    <td>{{task.projectRef.title}}</td>
+                    <td>
+                        <a [routerLink]="['/tasks/details',task._id]">{{task.title}}</a>
+                    </td>
+                    <td>{{task.hours}}</td>
+                    <td>{{task.startDate | date: 'dd-MMM-yy'}}</td>
+                    <td>{{(task.developer ? task.developer.firstname + ' ' + task.developer.lastname : '') | titlecase }}</td>
+                    <td class="text-center">
+                        <i class="" aria-hidden="true"></i>
+                        <i *ngIf="task.status == 'Pending'" data-toggle="tooltip" title="Pending.." class="fa fa-clock-o" aria-hidden="true"></i>
+                        <i *ngIf="task.status == 'In Progress'" data-toggle="tooltip" title="In Progress" class="fa fa-refresh" aria-hidden="true"></i>
+                        <i *ngIf="task.status == 'Completed'" data-toggle="tooltip" title="Completed" class="fa fa-check-circle" aria-hidden="true"></i>
+                    </td>
+                    <td *ngIf="userdata.role != 2">{{task.dueDateTime | date: 'dd-MMM-yy'}}</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-info" (click)="editTask(task)">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </button>&nbsp;&nbsp;
+                        <button *ngIf="userdata.role != 2" type="button" class="btn btn-outline-danger" (click)="deleteTask(task._id)">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="tasks.length == 0">
+                    <td colspan="9">
+                        <h3 class="">No Record Found</h3>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="tasks.length > 6" class="has-text-centered">
+            <pagination-controls (pageChange)="page = $event"></pagination-controls>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="container-flud">
+  <div class="row">
+    <h1 class="col-md-10">Import Task</h1>
+    <div>
+      <button class="col-md-2" style="height: 38px;" type="button" class="btn btn-outline-secondary float-right" (click)="downloadTemplate()">
+        <i class="fa fa-download" aria-hidden="true"></i> Download Sample
+      </button>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-4">
+      <select class="task-select form-control" (change)="onSelectProject()" [(ngModel)]="projectRef" name="projectRef">
+        <option value="" disabled selected>-- Select Project --</option>
+        <option value="{{project._id}}" *ngFor="let project of projectList">{{project.title | titlecase}}</option>
+      </select>
+    </div>
+    <div class="col-md-5">
+      <div class="upload-btn-wrapper" *ngIf="!uploader.getNotUploadedItems().length">
+        <input type="file" name="photo" accept=".csv" ng2FileSelect [uploader]="uploader" />
+        <button class="btn btn-outline-primary">
+          Upload a file
+        </button>
+      </div>
+
+      <button *ngIf="uploader.getNotUploadedItems().length" class="btn btn-outline-primary" (click)="uploader.uploadAll()">
+        Insert Data
+      </button> &nbsp;&nbsp;
+      <button *ngIf="uploader.getNotUploadedItems().length" type="button" class="btn btn-outline-danger" (click)="uploader.clearQueue()"
+        [disabled]="!uploader.queue.length">
+        <span class="glyphicon glyphicon-trash"></span> Remove
+      </button>
+    </div>
+  </div>
+</div>

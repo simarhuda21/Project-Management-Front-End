@@ -1,0 +1,127 @@
+<div class="container-flud">
+  <h3>Task Detail:</h3>
+  <!-- <div class="row" *ngFor="let task of tasks">
+    <div class="col-md-6">
+
+    </div>
+    <div class="col-md-6">
+
+    </div>
+  </div> -->
+  <table *ngFor="let task of tasks" class="table table-striped" style="width:50%; align-content: center;">
+    <tr>
+      <td>Sr No.</td>
+      <td>{{task.srNo}}</td>
+    </tr>
+    <tr>
+      <td>Project Name</td>
+      <td>{{projectname}}</td>
+    </tr>
+    <tr>
+      <td>Task Name</td>
+      <td>{{task.title}}</td>
+    </tr>
+    <tr>
+      <td>Developer</td>
+      <td>
+        {{userdata.firstname+" "+userdata.lastname}}
+      </td>
+    </tr>
+    <tr>
+      <td>Start Date</td>
+      <td>{{task.startDate | date: 'dd-MMM-yy'}}</td>
+    </tr>
+    <tr>
+      <td>End Date</td>
+      <td>{{task.dueDateTime | date: 'dd-MMM-yy'}}</td>
+    </tr>
+    <tr>
+      <td>Hours</td>
+      <td>{{task.hours}}</td>
+    </tr>
+    <tr>
+      <td>Description</td>
+      <td>{{task.description}}</td>
+    </tr>
+    <tr>
+      <td>Status</td>
+      <td>{{task.status}}</td>
+    </tr>
+  </table>
+  <h3>Tasks Comments:</h3>
+
+
+  <table class="table table-striped" style="align-content: center;">
+    <thead>
+      <th>Commentor</th>
+      <th>Comment</th>
+      <th>Time</th>
+      <th></th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cmtdetail of comments | paginate: { itemsPerPage: 6, currentPage: page }">
+        <td>{{ cmtdetail.commentor}}</td>
+        <td>{{ cmtdetail.comment}}</td>
+        <td>{{ cmtdetail.createdAt | date: 'dd-MMM-yy,hh:mm' }}</td>
+        <td>
+          <button type="button" class="btn btn-outline-danger" (click)="deleteComment(cmtdetail._id)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="comments?.length == 0">
+        <td colspan="8">
+          <h3 class="">No Comments Found</h3>
+        </td>
+      </tr>
+    </tbody>
+   </table>
+
+   <!-- <div class="row">
+    <div class="col-md-12 mesgs">
+      <div class="msg_history">
+        <div *ngFor="let cmtdetail of comments">
+          <div *ngIf="!cmtdetail.mycomment" class="incoming_msg">
+            <div title="{{cmtdetail.commentor}}" class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png"
+                alt="{{cmtdetail.commentor}}">
+            </div>   -->
+
+            <!-- <i class="fa fa-trash float-right" aria-hidden="true" (click)="deleteComment(cmtdetail._id)"></i> -->
+            
+
+            <!-- <div class="received_msg">
+              <div class="received_withd_msg">
+                <p>{{cmtdetail.comment}}
+                  
+                </p>
+                <span class="time_date">{{cmtdetail.createdAt | date: 'dd-MMM-yy,hh:mm' }}</span>
+              </div>
+            </div>
+          </div> -->
+
+
+          <!-- <div *ngIf="cmtdetail.mycomment" class="outgoing_msg">
+            <div class="sent_msg">
+              <p>{{cmtdetail.comment}}
+                  <i class="fa fa-trash float-right" aria-hidden="true" (click)="deleteComment(cmtdetail._id)"></i></p>
+              <span class="time_date">{{cmtdetail.createdAt | date: 'dd-MMM-yy,hh:mm' }}</span>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <form (ngSubmit)="addComment(commentObj)" #comment="ngForm">
+        <div class="type_msg">
+          <div class="input_msg_write">
+            <input type="text" name="description" placeholder="Please enter your comment" [(ngModel)]="commentObj?.commentDetail.comment"
+              class="write_msg" placeholder="Type a message" />
+            <button class="msg_send_btn" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </form>
+     <!-- </div>
+  </div>  -->
+  <div *ngIf="comments?.length > 6" class="has-text-centered">
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+</div>

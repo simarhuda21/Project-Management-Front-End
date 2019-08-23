@@ -1,0 +1,236 @@
+.group {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+textarea,
+input,
+select {
+    font-size: 18px;
+    padding: 15px 10px 15px 5px;
+    display: block;
+    border: none;
+    border-bottom: 1px solid #757575;
+    border-radius: inherit;
+    outline: none;
+    width: 100%;
+}
+
+select {
+    background-color: #FFF;
+    color: #757575;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0 #FFF;
+    border-color: #757575;
+}
+
+input:focus {
+    outline: none;
+}
+
+/* LABEL ======================================= */
+
+label {
+    color: #999;
+    font-size: 18px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 20px;
+    top: 10px;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+
+/* active state */
+
+textarea:focus~label,
+textarea:valid~label,
+input:focus~label,
+input:valid~label {
+    top: -15px;
+    font-size: 14px;
+    color: #757575;
+}
+
+/* BOTTOM BARS ================================= */
+
+.bar {
+    position: relative;
+    display: block; // width: 300px;
+}
+
+.bar:before,
+.bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: #757575;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+
+.bar:before {
+    left: 50%;
+}
+
+.bar:after {
+    right: 50%;
+}
+
+/* active state */
+
+textarea:focus~.bar:before,
+textarea:focus~.bar:after,
+input:focus~.bar:before,
+input:focus~.bar:after {
+    width: 50%;
+}
+
+/* HIGHLIGHTER ================================== */
+
+.highlight {
+    position: absolute;
+    height: 60%;
+    width: 100px;
+    top: 25%;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* active state */
+
+textarea:focus~.highlight,
+input:focus~.highlight {
+    -webkit-animation: inputHighlighter 0.3s ease;
+    -moz-animation: inputHighlighter 0.3s ease;
+    animation: inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+
+@-webkit-keyframes inputHighlighter {
+    from {
+        background: #757575;
+    }
+
+    to {
+        width: 0;
+        background: transparent;
+    }
+}
+
+@-moz-keyframes inputHighlighter {
+    from {
+        background: #757575;
+    }
+
+    to {
+        width: 0;
+        background: transparent;
+    }
+}
+
+@keyframes inputHighlighter {
+    from {
+        background: #757575;
+    }
+
+    to {
+        width: 0;
+        background: transparent;
+    }
+}
+
+.owl-dt-popup-container .owl-dt-calendar {
+    height: 17.25em;
+    position: absolute;
+    top: 30px !important;
+}
+
+select.form-control:not([size]):not([multiple]) {
+    height: calc(2.25rem + 12px);
+}
+
+.task-select {
+    border: none;
+    border-bottom: 1px solid #757575;
+    border-radius: inherit;
+    margin-top: 0px;
+}
+
+.marginBottom30 {
+    margin-bottom: 30px;
+}
+
+input[type=file] {
+    cursor: pointer;
+    width: 180px;
+    height: 50px;
+    overflow: hidden;
+}
+
+input[type=file]:before {
+    width: 158px;
+    height: 32px;
+    font-size: 16px;
+    line-height: 32px;
+    content: 'Select your file';
+    display: inline-block; // background: white;
+    // border: 1px solid #000;
+    padding: 0 10px;
+    text-align: center; // font-family: Helvetica, Arial, sans-serif;
+}
+
+input[type=file]::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+// .dropdown-list{
+//     display: none;
+// }
+
+// .multiselect-dropdown span.dropdown-btn {
+//     border: none !important;
+//     border-bottom: 10px solid !important;
+// }
+
+// .dropdown-list {
+//     position: fixed !important;
+//     /* width: 78%; */
+// }
+
+.main-container {
+    height: 90vh !important;
+}
+
+.fontSize15 {
+    font-size: 15px;
+}
+
+table td[class*=col-],
+table th[class*=col-] {
+    position: static;
+    display: table-cell;
+    float: none;
+}
+
+.ui-select-choices {
+    position: fixed;
+    top: auto;
+    left: auto;
+    width: inherit;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+    width: 40px;
+}

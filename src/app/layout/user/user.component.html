@@ -1,0 +1,126 @@
+<div *ngIf="!isListView">
+  <div class="container">
+    <h1 *ngIf="!isupdated"> Register New User</h1>
+    <h1 *ngIf="isupdated"> Update User</h1>
+    <form #f="ngForm" (ngSubmit)="onFormSubmit(user)">
+      <div class="row">
+        <input type="hidden" class="form-control" id="id" [(ngModel)]="user._id" name="id" required>
+        <!-- first name -->
+        <div class="col-md-12 col-sm-12 form-group group">
+          <input type="text" class="form-control" id="firstname" [ngModel]="user.firstname | titlecase" (ngModelChange)="user.firstname=$event" name="firstname" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label>First Name</label>
+        </div>
+
+        <!-- last name -->
+        <div class="col-md-12 col-sm-12 form-group group">
+          <input type="text" class="form-control" id="lastname" [ngModel]="user.lastname | titlecase" (ngModelChange)="user.lastname=$event"  name="lastname" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label>Last Name</label>
+        </div>
+
+        <!-- email -->
+        <div class="col-md-12 col-sm-12 form-group group">
+          <input type="email" class="form-control" id="email" [(ngModel)]="user.email" name="email" required
+            [disabled]="isupdated">
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label for="email" *ngIf="!isupdated">Email</label>
+        </div>
+          <!-- Job Role -->
+          <div class="col-md-12 col-sm-12 form-group group">
+            <select id="role" name="role" [(ngModel)]="user.role">
+              <option [ngValue]="0" disabled>-- Select Role --</option>
+              <option *ngFor="let rolelist of roles" [ngValue]="rolelist.id">{{rolelist.name}}</option>
+            </select>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+          </div>
+          <div  *ngIf="isupdated" class="col-md-12 col-sm-12 form-group group">
+            <input type="password" class="form-control" [(ngModel)]="user.newpassword"  name="newpassword" required>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>New Password</label>
+          </div>
+          <div  *ngIf="isupdated" class="col-md-12 col-sm-12 form-group group">
+              <!-- formControlName="confirmPassword" -->
+            <input type="password" class="form-control" [(ngModel)]="user.confirmpassword"  name="confirmpassword" required>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>Confirm Password</label>
+            </div>
+        <!-- username -->
+        <!-- <div class="col-md-6 col-sm-12 form-group group">
+          <input type="text" class="form-control" id="username" [(ngModel)]="user.username" name="username" required [disabled]="isupdated">
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label for="username" *ngIf="!isupdated">Username</label>
+        </div> -->
+
+      
+
+        <!-- MAil remainder -->
+        <div class="row col-md-12" *ngIf="isupdated">
+          <div class="col-md-2 col-sm-2">
+            <span>Remainder</span>
+          </div>
+          <div class="col-md-10 col-sm-10">
+            <ui-switch defaultBgColor="#ccc" color="#232322" [(ngModel)]="user.remainder" name="Remainder"></ui-switch>
+          </div>
+        </div>
+
+        <!-- register User BUtton -->
+        <div class="col-sm-12 text-center">
+          <button type="submit" class="btn btn-outline-primary">{{valbutton}}</button>&nbsp;&nbsp;
+          <button type="submit" class="btn btn-outline-danger" (click)="goBack()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Table Element  -->
+<div *ngIf="isListView">
+    <button type="button" data-toggle="tooltip" title="Add New User" class="btn btn-outline-primary customeBtn" (click)="addNewUser()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+  <div class="marginBottom15"></div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>SrNo.</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mail Remainder</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody class="fontSize15">
+      <tr *ngFor="let users of userdata | paginate: { itemsPerPage:25, currentPage: page }; let ind = index"  >
+        <td>{{(page - 1) * 25 + ind+1}}</td>
+        <td>{{users.firstname | titlecase}} {{users.lastname | titlecase}}</td>
+        <td>{{users.email}}</td>
+        <td>{{users.remainder ? 'Yes' : 'No'}}</td>
+        <td>{{role[users.role]}}</td>
+        <td>
+          <button type="button" class="btn btn-outline-info" (click)="editUser(users)">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>&nbsp;&nbsp;
+          <button type="button" class="btn btn-outline-danger" (click)="deleteUser(users._id)">
+           <i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="userdata.length == 0">
+        <td colspan="6">
+          <h3 class="">No Record Found</h3>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="userdata.length > 25" class="has-text-centered">
+  
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>
+</div>

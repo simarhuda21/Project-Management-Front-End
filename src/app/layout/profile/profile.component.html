@@ -1,0 +1,61 @@
+<div class="container-fluid">
+  <h1>User Profile</h1>
+  <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <table class="table table-striped">
+        <tr>
+          <td>Name: </td>
+          <td>{{ userdata.firstname + ' ' + userdata.lastname | titlecase}}</td>
+        </tr>
+        <!-- <tr>
+          <td>Username: </td>
+          <td>{{userdata.username}}</td>
+        </tr> -->
+        <tr>
+          <td>Email: </td>
+          <td>{{userdata.email}}</td>
+        </tr>
+        <tr>
+          <td>Role: </td>
+          <td>{{userdata.role == 4 ? 'Super Admin' : userdata.role == 1 ? 'Manager' : userdata.role == 2 ? 'Developer': ''}}</td>
+        </tr>
+      </table>
+    </div>
+  <div class="mt-3"><hr></div>
+    <div class="col-md-12 col-sm-12">
+      <form [formGroup]="changePassword" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 form-group group">
+            <input type="password" class="form-control" formControlName="currentPassword" name="currentPassword" required>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>Current Password</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-sm-12 form-group group">
+            <input type="password" class="form-control" formControlName="newPassword" name="newPassword" required>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>New Password</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-sm-12 form-group group">
+            <input type="password" class="form-control" formControlName="confirmPassword" name="confirmPassword" required>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>Confirm Password</label>
+          </div>
+        </div>
+        <div class="row" style="text-align: center;">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-outline-primary">Save</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-outline-danger" (click)="clear()">Clear</button>&nbsp;&nbsp;
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

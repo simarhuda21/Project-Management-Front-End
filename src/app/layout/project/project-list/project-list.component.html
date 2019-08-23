@@ -1,0 +1,96 @@
+<div class="container-flud">
+  <div class="marginBottom15"></div>
+  <div *ngIf="isNewproject">
+    <h1>{{showTitle}} Project</h1>
+    <form (ngSubmit)="onSave(projectObj)" #proform="ngForm">
+      <div class="row">
+        <div class="col-sm-12 form-group group" ngClass="{{checkRole == '1' ? 'col-md-12': 'col-md-6'}}">
+          <input type="text" class="form-control" id="title" name="title" [(ngModel)]="projectObj.title" required>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label for="title">Title</label>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group group" *ngIf="checkRole == '4'">
+          <select id="manager" class="form-control" name="manager" [(ngModel)]="projectObj.manager">
+            <option value="" disabled selected>-- Select Manager --</option>
+            <option *ngFor="let manager of manageruser" value="{{ manager._id }}">{{ manager.firstname + ' ' + manager.lastname | titlecase }}</option>
+          </select>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 myclass">
+          <ng-multiselect-dropdown ngClass="multiselect" [placeholder]="'-- Select Your Team --'" [data]="dropdownList" [(ngModel)]="userslist"
+            [settings]="dropdownSettings" name="{{firstname + '' + lastname}}" (onDeSelect)="onSelectRemove($event)" (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="col-sm-12 text-center margin-top">
+        <div class="marginBottom30"></div>
+        <button type="submit" class="btn btn-outline-primary" value="{{ valbutton }}">{{ valbutton }}</button> &nbsp;&nbsp;
+        <button type="button" class="btn btn-outline-danger" (click)="goBack()">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="!isNewproject">
+    <button type="button" class="btn btn-outline-primary customeBtn" name="New" data-toggle="tooltip" title="Add New Project"
+      (click)="isNewProject()">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
+    <!-- <div class="marginBottom15"></div> -->
+    <table class="table table-striped">
+      <!--  datatable -->
+      <thead>
+        <tr>
+          <th>SrNo.</th>
+          <th>Title</th>
+          <th>Manager</th>
+          <th>Users</th>
+          <th>Action</th>
+          <!-- <th>Get Details</th> -->
+        </tr>
+      </thead>
+      <tbody class="fontSize15">
+        <tr *ngFor="let kk of Repdata | paginate: { itemsPerPage: 6, currentPage: page }; let ind = index">
+          <td>{{(page - 1) * 6 + ind+1}}</td>
+          <td>{{kk.title}}</td>
+          <td  *ngIf="kk.manager;else noManager">{{kk.manager.firstname + ' ' + kk.manager.lastname | titlecase}}</td>
+          <ng-template #noManager> <td > - </td></ng-template>
+          <td>
+           
+            <div *ngFor="let teamUser of kk.team">{{teamUser.firstname + ' ' + teamUser.lastname | titlecase}}</div>
+          </td>
+          <td>
+            <button type="button" class="btn btn-outline-info" (click)="edit(kk)">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </button>&nbsp;&nbsp;
+            <button type="button" class="btn btn-outline-danger" (click)="delete(kk._id)">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>&nbsp;&nbsp;
+            <button type="button" data-toggle="tooltip" title="View Project Details" class="btn btn-outline-danger" [routerLink]="['/projects/details',kk._id]">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="Repdata.length == 0">
+          <td colspan="5">
+            <h3 class="">No Record Found</h3>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="Repdata.length > 6" class="has-text-centered">
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+    <div *ngIf="detailid">
+      <h3>Project title:</h3>
+      <table>
+        <tr *ngFor="let task of detailtask">
+          <td></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

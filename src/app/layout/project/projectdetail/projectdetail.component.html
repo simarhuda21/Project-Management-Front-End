@@ -1,0 +1,57 @@
+<div class="container-flud">
+  <h3>Project Detail:</h3>
+  <table class="table table-striped" style="width:50%; align-content: center;">
+    <tr>
+      <td>Project Name</td>
+      <td>{{project.title}}</td>
+    </tr>
+    <tr>
+      <td>Manager</td>
+      <td>{{project.manager?.firstname+' '+project.manager?.lastname | titlecase}}</td>
+    </tr>
+    <tr>
+      <td>Developers</td>
+      <td>
+        <span *ngFor="let teamUser of team">{{teamUser?.firstname + ' ' + teamUser?.lastname+', ' | titlecase}}</span>
+      </td>
+    </tr>
+  </table>
+
+  <h3>Tasks:</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Serial No.</th>
+        <th>Project</th>
+        <th>Task</th>
+        <th>Hour</th>
+        <th>Start Date</th>
+        <th>Status</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody class="fontSize15">
+      <tr *ngFor="let task of tasks">
+        <td>{{task.srNo}}</td>
+        <td>{{task.projectRef.title}}</td>
+        <td>
+          <a [routerLink]="['/tasks/details',task._id]">{{task.title}}</a>
+        </td>
+        <td>{{task.hours}}</td>
+        <td>{{task.startDate | date: 'dd-MMM-yy'}}</td>
+        <td class="text-center">
+          <i class="" aria-hidden="true"></i>
+          <i *ngIf="task.status == 'Pending'" data-toggle="tooltip" title="Pending.." class="fa fa-clock-o" aria-hidden="true"></i>
+          <i *ngIf="task.status == 'In Progress'" data-toggle="tooltip" title="In Progress" class="fa fa-refresh" aria-hidden="true"></i>
+          <i *ngIf="task.status == 'Completed'" data-toggle="tooltip" title="Completed" class="fa fa-check-circle" aria-hidden="true"></i>
+        </td>
+        <td>{{task.dueDateTime | date: 'dd-MMM-yy'}}</td>
+      </tr>
+      <tr *ngIf="tasks.length == 0">
+        <td colspan="8">
+          <h3 class="">No Record Found</h3>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

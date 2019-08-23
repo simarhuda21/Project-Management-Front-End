@@ -1,0 +1,16 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<section class="main-container" *ngIf="role != '2';else developer">
+    <router-outlet>
+            <toaster-container></toaster-container>
+    </router-outlet>
+</section>
+<ng-template #developer>
+    <section class="main-container"  style="margin-left: 0px !important;">
+        <router-outlet></router-outlet>
+    </section></ng-template>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
