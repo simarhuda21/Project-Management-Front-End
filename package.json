@@ -63,7 +63,7 @@
     "sass": "^1.7.3",
     "swal": "^0.1.0",
     "sweetalert2": "^7.24.4",
-    "yarn": "^1.6.0",
+    "yarn": "^1.22.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
